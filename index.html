@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brussels Brasserie — Sur la Grand-Place · Bruxelles</title>
+  <meta name="description" content="Brussels Brasserie, restaurant belge directement sur la Grand-Place 34 à Bruxelles. Vue imprenable sur les guildes dorées. Moules-frites, Chicken Schnitzel, bières belges.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ——— CUSTOM PROPERTIES ——— */
+    :root {
+      --red:    #c0392b;
+      --green:  #1a6b3a;
+      --gold:   #c9922a;
+      --white:  #ffffff;
+      --cream:  #faf8f5;
+      --dark:   #111111;
+      --text:   #1a1a1a;
+      --muted:  #5a5a5a;
+      --border: #e0e0e0;
+      --ff-disp:  'Bebas Neue', sans-serif;
+      --ff-serif: 'Playfair Display', serif;
+      --ff-body:  'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--text);
+      font-family: var(--ff-body);
+      font-weight: 300;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* ——— PROGRESS BAR ——— */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 0%; height: 3px;
+      background: linear-gradient(to right, var(--red), var(--green));
+      z-index: 9999;
+      transition: width 0.08s linear;
+    }
+
+    /* ——— NAVBAR ——— */
+    nav {
+      position: fixed;
+      top: 3px; left: 0; right: 0;
+      height: 66px;
+      background: var(--white);
+      border-bottom: 2px solid var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      z-index: 1000;
+    }
+
+    .nav-brand { text-decoration: none; display: flex; flex-direction: column; line-height: 1.05; }
+    .nav-logo-text { display: flex; align-items: baseline; gap: 0.2em; }
+    .logo-brussels {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      font-size: 1.35rem;
+      color: var(--red);
+    }
+    .logo-brasserie {
+      font-family: var(--ff-disp);
+      font-size: 1.65rem;
+      color: var(--green);
+      letter-spacing: 0.03em;
+    }
+    .nav-brand-sub {
+      font-family: var(--ff-body);
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 1.8rem; }
+
+    .nav-links { list-style: none; display: flex; gap: 1.4rem; }
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--red); }
+
+    .mobile-cta-wrap { display: none; }
+
+    .nav-cta {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      border-radius: 5px;
+      padding: 0.52rem 1.2rem;
+      font-family: var(--ff-disp);
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { background: #a93226; }
+
+    .lang-toggle { display: flex; align-items: center; gap: 0.25em; }
+    .lang-toggle button {
+      background: none;
+      border: none;
+      font-family: var(--ff-disp);
+      font-size: 0.92rem;
+      color: var(--green);
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      padding: 0;
+      opacity: 0.45;
+      transition: opacity 0.2s;
+    }
+    .lang-toggle button.active { opacity: 1; border-bottom: 1px solid var(--green); }
+    .lang-sep { color: var(--green); opacity: 0.3; font-size: 0.8rem; }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--red);
+      font-size: 1.35rem;
+      cursor: pointer;
+    }
+
+    /* ——— MOBILE NAV ——— */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 69px; left: 0; right: 0;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.4rem;
+        padding: 2rem 0;
+        background: var(--white);
+        border-bottom: 2px solid var(--red);
+        z-index: 998;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a    { font-size: 1rem; }
+      .mobile-cta-wrap { display: block; }
+      .mobile-cta {
+        display: inline-block;
+        background: var(--red);
+        color: var(--white);
+        text-decoration: none;
+        border-radius: 5px;
+        padding: 0.6rem 2rem;
+        font-family: var(--ff-disp);
+        font-size: 1rem;
+        letter-spacing: 0.1em;
+      }
+      .nav-cta   { display: none; }
+      .hamburger { display: block; }
+      .nav-right { gap: 1rem; }
+    }
+
+    /* ——— UTILITIES ——— */
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
+    .text-center { text-align: center; }
+
+    .section-title {
+      font-family: var(--ff-disp);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+    }
+    .section-title.dark  { color: var(--text); }
+    .section-title.light { color: var(--white); }
+    .section-title.red   { color: var(--red); }
+    .section-title.green { color: var(--green); }
+
+    .section-sub {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      font-size: 1rem;
+      margin-bottom: 3rem;
+    }
+    .section-sub.dark  { color: var(--muted); }
+    .section-sub.light { color: rgba(255,255,255,0.68); }
+
+    /* ——— FADE-UP ——— */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ——— HERO ——— */
+    #hero {
+      min-height: 100vh;
+      padding-top: 69px;
+      background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.58);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.1rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--ff-body);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.38rem 1rem;
+      border-radius: 2px;
+    }
+
+    .hero-title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 0.88;
+    }
+    .hero-brussels {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      color: var(--red);
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      display: block;
+    }
+    .hero-brasserie {
+      font-family: var(--ff-disp);
+      color: var(--white);
+      font-size: clamp(4.5rem, 15vw, 11rem);
+      letter-spacing: 0.02em;
+      display: block;
+      line-height: 0.92;
+    }
+
+    .hero-sub {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: rgba(255,255,255,0.88);
+      line-height: 1.55;
+    }
+
+    .hero-quote {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--gold);
+    }
+
+    .hero-icons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.4rem;
+    }
+    .hero-icon-item {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.04em;
+    }
+    .hero-icon-item img { width: 20px; height: 20px; }
+    .hero-sep { color: rgba(255,255,255,0.25); font-size: 1rem; }
+
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    .btn-red {
+      background: var(--red);
+      color: var(--white);
+      border: 2px solid var(--red);
+      border-radius: 6px;
+      padding: 0.75rem 1.8rem;
+      font-family: var(--ff-disp);
+      font-size: 1.05rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .btn-red:hover { background: #a93226; border-color: #a93226; }
+
+    .btn-outline-green {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--green);
+      border-radius: 6px;
+      padding: 0.75rem 1.8rem;
+      font-family: var(--ff-disp);
+      font-size: 1.05rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .btn-outline-green:hover { background: rgba(26,107,58,0.22); }
+
+    .hero-open {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.72);
+    }
+    .pulse-dot {
+      width: 9px; height: 9px;
+      background: var(--red);
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.55); opacity: 0.4; }
+    }
+
+    /* ——— PILLARS ——— */
+    #pillars {
+      background: var(--dark);
+      padding: 5.5rem 0;
+    }
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+    }
+    .pillar-card { border-radius: 10px; padding: 2.5rem 2rem; text-align: center; }
+    .pillar-card:nth-child(1) { border: 1px solid var(--red); }
+    .pillar-card:nth-child(2) { border: 1px solid var(--green); }
+    .pillar-card:nth-child(3) { border: 1px solid var(--red); }
+
+    .pillar-icon { width: 46px; height: 46px; margin: 0 auto 1.2rem; display: block; }
+
+    .pillar-title {
+      font-family: var(--ff-disp);
+      font-size: 1.4rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+    .pillar-card:nth-child(1) .pillar-title { color: var(--red); }
+    .pillar-card:nth-child(2) .pillar-title { color: var(--green); }
+    .pillar-card:nth-child(3) .pillar-title { color: var(--red); }
+
+    .pillar-text { font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.7; }
+
+    @media (max-width: 768px) { .pillars-grid { grid-template-columns: 1fr; } }
+
+    /* ——— MENU ——— */
+    #menu {
+      background: var(--cream);
+      padding: 5.5rem 0;
+    }
+    .menu-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+    .menu-col { display: flex; flex-direction: column; gap: 2rem; }
+
+    .menu-cat-header {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--red);
+      padding-bottom: 0.5rem;
+      border-bottom: 1.5px solid rgba(192,57,43,0.18);
+      margin-bottom: 0.8rem;
+    }
+
+    .menu-dish {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0.38rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      font-size: 0.87rem;
+      color: var(--text);
+    }
+    .menu-dish:last-child { border-bottom: none; }
+    .dish-star { color: var(--green); font-size: 0.72rem; flex-shrink: 0; margin-left: 0.4rem; }
+
+    .menu-note {
+      margin-top: 2rem;
+      text-align: center;
+      font-family: var(--ff-serif);
+      font-style: italic;
+      color: var(--green);
+      font-size: 0.9rem;
+      padding: 1rem 1.5rem;
+      border: 1px dashed rgba(26,107,58,0.3);
+      border-radius: 10px;
+    }
+
+    @media (max-width: 768px) { .menu-board { grid-template-columns: 1fr; } }
+
+    /* ——— GALLERY ——— */
+    #gallery {
+      background: var(--dark);
+      padding: 5.5rem 0;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .gallery-item { border-radius: 10px; overflow: hidden; aspect-ratio: 4/3; }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      transition: transform 0.4s ease, border-color 0.3s;
+    }
+    .gallery-item:hover img { transform: scale(1.06); border-color: var(--red); }
+
+    @media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr; } }
+
+    /* ——— ABOUT ——— */
+    #about {
+      background: var(--white);
+      padding: 5.5rem 0;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-img img {
+      width: 100%;
+      border-radius: 10px;
+      border: 2px solid var(--red);
+      display: block;
+    }
+    .about-heading {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .about-italic {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      color: var(--red);
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .about-body {
+      color: var(--text);
+      font-size: 0.92rem;
+      line-height: 1.85;
+      margin-bottom: 2rem;
+    }
+    .about-stats { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+    .about-stat { text-align: center; }
+    .about-stat-value {
+      font-family: var(--ff-disp);
+      font-size: 1.25rem;
+      color: var(--green);
+      letter-spacing: 0.04em;
+    }
+    .about-stat-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+
+    /* ——— REVIEWS ——— */
+    #reviews {
+      background: var(--cream);
+      padding: 5.5rem 0;
+    }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .review-card {
+      background: var(--white);
+      border: 1px solid rgba(192,57,43,0.18);
+      border-radius: 10px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .review-stars { color: var(--red); font-size: 0.85rem; letter-spacing: 0.1em; margin-bottom: 0.9rem; }
+    .review-text {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      color: var(--text);
+      font-size: 0.88rem;
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+    .review-source { font-size: 0.72rem; color: var(--red); text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
+
+    @media (max-width: 768px) { .reviews-grid { grid-template-columns: 1fr; } }
+
+    /* ——— CONTACT ——— */
+    #contact {
+      background: var(--dark);
+      padding: 5.5rem 0;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.78);
+    }
+    .info-row img { width: 19px; height: 19px; margin-top: 2px; flex-shrink: 0; }
+    .info-row a { color: var(--red); text-decoration: none; }
+    .info-row a:hover { text-decoration: underline; }
+
+    .hours-label {
+      font-family: var(--ff-disp);
+      font-size: 0.88rem;
+      color: var(--red);
+      letter-spacing: 0.1em;
+      margin: 1.4rem 0 0.5rem;
+    }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.38rem 0;
+      border-bottom: 1px solid rgba(192,57,43,0.12);
+      font-size: 0.85rem;
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day  { color: rgba(255,255,255,0.72); }
+    .hours-time { color: var(--red); }
+
+    .contact-note {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.48);
+      margin-top: 0.5rem;
+    }
+    .contact-note.highlight {
+      color: var(--gold);
+      font-size: 0.9rem;
+      margin-top: 0.9rem;
+    }
+
+    .map-wrap { margin-top: 1.5rem; border-radius: 10px; overflow: hidden; }
+
+    /* Reservation form */
+    .res-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+    .form-label {
+      font-size: 0.74rem;
+      color: var(--red);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .form-input, .form-select, .form-textarea {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(192,57,43,0.3);
+      border-radius: 6px;
+      padding: 0.65rem 1rem;
+      color: var(--white);
+      font-family: var(--ff-body);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--red); }
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c0392b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.2rem;
+      cursor: pointer;
+    }
+    .form-select option { background: #1a1a1a; color: var(--white); }
+    .form-textarea { resize: vertical; min-height: 100px; }
+
+    .form-btn {
+      align-self: flex-start;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      border-radius: 6px;
+      padding: 0.85rem 2rem;
+      font-family: var(--ff-disp);
+      font-size: 1.05rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .form-btn:hover  { background: #a93226; }
+    .form-btn:active { transform: scale(0.98); }
+
+    .form-success {
+      display: none;
+      background: rgba(192,57,43,0.1);
+      border: 1px solid var(--red);
+      border-radius: 6px;
+      padding: 1.2rem;
+      font-family: var(--ff-serif);
+      font-style: italic;
+      color: var(--red);
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row     { grid-template-columns: 1fr; }
+    }
+
+    /* ——— FOOTER ——— */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(192,57,43,0.18);
+      padding: 2.5rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      gap: 1rem;
+    }
+    .footer-logo { display: flex; align-items: baseline; gap: 0.18em; flex-wrap: wrap; }
+    .footer-brussels  { font-family: var(--ff-serif); font-style: italic; color: var(--red);   font-size: 1.45rem; }
+    .footer-brasserie { font-family: var(--ff-disp);                      color: var(--green); font-size: 1.6rem;  letter-spacing: 0.03em; }
+    .footer-sub  { font-size: 0.75rem; color: rgba(255,255,255,0.37); margin-top: 0.2rem; }
+    .footer-copy { text-align: center; font-size: 0.78rem; color: rgba(255,255,255,0.34); }
+    .footer-links { text-align: right; display: flex; flex-direction: column; gap: 0.3rem; }
+    .footer-links a { color: var(--red); text-decoration: none; font-size: 0.83rem; transition: opacity 0.2s; }
+    .footer-links a:hover { opacity: 0.65; }
+
+    @media (max-width: 768px) {
+      .footer-inner { grid-template-columns: 1fr; text-align: center; }
+      .footer-links { text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-ctas  { flex-direction: column; align-items: center; }
+      .hero-icons { flex-direction: column; gap: 0.7rem; }
+      .hero-sep   { display: none; }
+      .about-stats { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PROGRESS BAR -->
+  <div id="progress-bar"></div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a class="nav-brand" href="#hero">
+      <div class="nav-logo-text">
+        <span class="logo-brussels">Brussels</span>
+        <span class="logo-brasserie">Brasserie</span>
+      </div>
+      <span class="nav-brand-sub">Grand-Place 34 · Bruxelles</span>
+    </a>
+    <div class="nav-right">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#menu"    data-fr="Menu"         data-en="Menu">Menu</a></li>
+        <li><a href="#about"   data-fr="À propos"     data-en="About">À propos</a></li>
+        <li><a href="#contact" data-fr="Réservation"  data-en="Reservation">Réservation</a></li>
+        <li><a href="#contact" data-fr="Contact"      data-en="Contact">Contact</a></li>
+        <li class="mobile-cta-wrap">
+          <a class="mobile-cta" href="#contact"
+             data-fr="Réserver une table"
+             data-en="Reserve a table">Réserver une table</a>
+        </li>
+      </ul>
+      <a class="nav-cta" href="#contact"
+         data-fr="Réserver" data-en="Reserve">Réserver</a>
+      <div class="lang-toggle">
+        <button id="btnFR" class="active" onclick="setLang('fr')">FR</button>
+        <span class="lang-sep">|</span>
+        <button id="btnEN" onclick="setLang('en')">EN</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <i class="fas fa-bars" id="hamburgerIcon"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════ HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+
+      <div class="hero-badge fade-up"
+           data-fr="Sur la Grand-Place · Grand-Place 34 · Bruxelles"
+           data-en="On the Grand Place · Grand-Place 34 · Brussels">
+        Sur la Grand-Place · Grand-Place 34 · Bruxelles
+      </div>
+
+      <div class="hero-title fade-up">
+        <span class="hero-brussels">Brussels</span>
+        <span class="hero-brasserie">Brasserie</span>
+      </div>
+
+      <p class="hero-sub fade-up">
+        <span data-fr="Cuisine belge authentique avec vue directe"
+              data-en="Authentic Belgian cuisine with a direct view">Cuisine belge authentique avec vue directe</span><br>
+        <span data-fr="sur la plus belle place du monde"
+              data-en="of the most beautiful square in the world">sur la plus belle place du monde</span>
+      </p>
+
+      <p class="hero-quote fade-up">
+        <span data-fr="&quot;La Grand-Place — la plus belle place du monde.&quot;"
+              data-en="&quot;Grand Place — the most beautiful square in the world.&quot;">"La Grand-Place — la plus belle place du monde."</span>
+      </p>
+
+      <div class="hero-icons fade-up">
+        <div class="hero-icon-item">
+          <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3db.svg" alt="">
+          <span data-fr="Vue Grand-Place" data-en="Grand Place view">Vue Grand-Place</span>
+        </div>
+        <span class="hero-sep">·</span>
+        <div class="hero-icon-item">
+          <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9aa.svg" alt="">
+          <span data-fr="Moules" data-en="Mussels">Moules</span>
+        </div>
+        <span class="hero-sep">·</span>
+        <div class="hero-icon-item">
+          <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f37a.svg" alt="">
+          <span data-fr="Bières belges" data-en="Belgian beers">Bières belges</span>
+        </div>
+      </div>
+
+      <div class="hero-ctas fade-up">
+        <a class="btn-red" href="#menu"
+           data-fr="Voir notre carte"
+           data-en="View our menu">Voir notre carte</a>
+        <a class="btn-outline-green" href="#contact"
+           data-fr="Réserver une table"
+           data-en="Reserve a table">Réserver une table</a>
+      </div>
+
+      <div class="hero-open fade-up">
+        <div class="pulse-dot"></div>
+        <span data-fr="Ouvert tous les jours · 11:00–23:00"
+              data-en="Open every day · 11:00–23:00">Ouvert tous les jours · 11:00–23:00</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ PILLARS -->
+  <section id="pillars">
+    <div class="container">
+      <div class="pillars-grid">
+
+        <div class="pillar-card fade-up">
+          <img class="pillar-icon"
+               src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3db.svg" alt="">
+          <div class="pillar-title"
+               data-fr="Vue sur la Grand-Place"
+               data-en="Grand Place view">Vue sur la Grand-Place</div>
+          <p class="pillar-text">
+            <span data-fr="L'un des rares restaurants avec vue directe sur la Grand-Place — un privilège unique au cœur de Bruxelles."
+                  data-en="One of the few restaurants with a direct view of the Grand Place — a unique privilege in the heart of Brussels.">L'un des rares restaurants avec vue directe sur la Grand-Place — un privilège unique au cœur de Bruxelles.</span>
+          </p>
+        </div>
+
+        <div class="pillar-card fade-up">
+          <img class="pillar-icon"
+               src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9aa.svg" alt="">
+          <div class="pillar-title"
+               data-fr="Moules &amp; cuisine belge"
+               data-en="Mussels &amp; Belgian cuisine">Moules &amp; cuisine belge</div>
+          <p class="pillar-text">
+            <span data-fr="Moules-frites, carbonade flamande, vol-au-vent — les classiques belges au cœur de la Grand-Place."
+                  data-en="Mussels-frites, Flemish stew, vol-au-vent — Belgian classics in the heart of the Grand Place.">Moules-frites, carbonade flamande, vol-au-vent — les classiques belges au cœur de la Grand-Place.</span>
+          </p>
+        </div>
+
+        <div class="pillar-card fade-up">
+          <img class="pillar-icon"
+               src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f37a.svg" alt="">
+          <div class="pillar-title"
+               data-fr="Bières belges"
+               data-en="Belgian beers">Bières belges</div>
+          <p class="pillar-text">
+            <span data-fr="Grande sélection de bières brassées localement — dégustation au cœur de l'histoire bruxelloise."
+                  data-en="Large selection of locally brewed beers — tasting in the heart of Brussels history.">Grande sélection de bières brassées localement — dégustation au cœur de l'histoire bruxelloise.</span>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ MENU -->
+  <section id="menu">
+    <div class="container">
+
+      <div class="text-center fade-up" style="margin-bottom:2.8rem;">
+        <h2 class="section-title dark"
+            data-fr="Notre Carte"
+            data-en="Our Menu">Notre Carte</h2>
+        <p class="section-sub dark" style="margin-bottom:0;">
+          <span data-fr="Cuisine belge &amp; internationale — ingrédients frais, saveurs authentiques"
+                data-en="Belgian &amp; international cuisine — fresh ingredients, authentic flavours">Cuisine belge &amp; internationale — ingrédients frais, saveurs authentiques</span>
+        </p>
+      </div>
+
+      <div class="menu-board fade-up">
+
+        <!-- LEFT COLUMN -->
+        <div class="menu-col">
+
+          <div class="menu-cat">
+            <div class="menu-cat-header" data-fr="Entrées" data-en="Starters">Entrées</div>
+            <div class="menu-dish">
+              <span data-fr="Soupe du jour" data-en="Soup of the day">Soupe du jour</span>
+              <span class="dish-star">★</span>
+            </div>
+            <div class="menu-dish">
+              <span data-fr="Escargots en coquille" data-en="Snails in shell">Escargots en coquille</span>
+            </div>
+            <div class="menu-dish">
+              <span data-fr="Croquettes aux crevettes" data-en="Shrimp croquettes">Croquettes aux crevettes</span>
+            </div>
+            <div class="menu-dish">
+              <span data-fr="Salade César / mixte" data-en="Caesar / mixed salad">Salade César / mixte</span>
+            </div>
+          </div>
+
+          <div class="menu-cat">
+            <div class="menu-cat-header" data-fr="Bières belges" data-en="Belgian beers">Bières belges</div>
+            <div class="menu-dish">
+              <span data-fr="Grande sélection locale" data-en="Large local selection">Grande sélection locale</span>
+            </div>
+            <div class="menu-dish">
+              <span data-fr="Blonde · Brune · Blanche" data-en="Blonde · Dark · White">Blonde · Brune · Blanche</span>
+            </div>
+            <div class="menu-dish">
+              <span data-fr="Trappiste" data-en="Trappist">Trappiste</span>
+              <span class="dish-star">★</span>
+            </div>
+          </div>
+
+          <div class="menu-cat">
+            <div class="menu-cat-header" data-fr="Desserts" data-en="Desserts">Desserts</div>
+            <div class="menu-dish">
+              <span>Dame Blanche</span>
+            </div>
+            <div class="menu-dish">
+              <span>Crème brûlée</span>
+            </div>
+            <div class="menu-dish">
+              <span data-fr="Gaufre de Bruxelles" data-en="Brussels waffle">Gaufre de Bruxelles</span>
+            </div>
+            <div class="menu-dish">
+              <span data-fr="Mousse au chocolat" data-en="Chocolate mousse">Mousse au chocolat</span>
+            </div>
+          </div>
+
+        </div><!-- /left col -->
+
+        <!-- RIGHT COLUMN -->
+        <div class="menu-col">
+
+          <div class="menu-cat">
+            <div class="menu-cat-header" data-fr="Plats principaux" data-en="Main courses">Plats principaux</div>
+            <div class="menu-dish">
+              <span>Moules-frites (<span data-fr="marinière, crème..." data-en="marinière, cream...">marinière, crème...</span>)</span>
+              <span class="dish-star">★</span>
+            </div>
+            <div class="menu-dish">
+              <span>Chicken Schnitzel</span>
+              <span class="dish-star">★</span>
+            </div>
+            <div class="menu-dish">
+              <span data-fr="Ribeye steak / Steak au poivre" data-en="Ribeye steak / Pepper steak">Ribeye steak / Steak au poivre</span>
+            </div>
+            <div class="menu-dish">
+              <span data-fr="Carbonade flamande" data-en="Flemish beef stew">Carbonade flamande</span>
+              <span class="dish-star">★</span>
+            </div>
+            <div class="menu-dish">
+              <span data-fr="Vol-au-vent maison" data-en="House vol-au-vent">Vol-au-vent maison</span>
+            </div>
+            <div class="menu-dish">
+              <span data-fr="Pasta fruits de mer" data-en="Seafood pasta">Pasta fruits de mer</span>
+            </div>
+          </div>
+
+        </div><!-- /right col -->
+
+      </div><!-- /menu-board -->
+
+      <div class="menu-note fade-up">
+        <span data-fr="Réservation recommandée · Cartes acceptées · Vue directe sur la Grand-Place"
+              data-en="Reservation recommended · Cards accepted · Direct view of the Grand Place">Réservation recommandée · Cartes acceptées · Vue directe sur la Grand-Place</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ GALLERY -->
+  <section id="gallery">
+    <div class="container">
+      <div class="text-center fade-up">
+        <h2 class="section-title light"
+            data-fr="Notre Vue &amp; Nos Spécialités"
+            data-en="Our View &amp; Specialities">Notre Vue &amp; Nos Spécialités</h2>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item fade-up">
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&auto=format&fit=crop"
+               alt="Brussels Brasserie — cuisine belge">
+        </div>
+        <div class="gallery-item fade-up">
+          <img src="https://images.unsplash.com/photo-1534482421-64566f976cfa?w=800&auto=format&fit=crop"
+               alt="Brussels Brasserie — spécialités">
+        </div>
+        <div class="gallery-item fade-up">
+          <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&auto=format&fit=crop"
+               alt="Brussels Brasserie — ambiance Grand-Place">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+
+        <div class="about-img fade-up">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&auto=format&fit=crop"
+               alt="Brussels Brasserie — vue sur la Grand-Place">
+        </div>
+
+        <div class="fade-up">
+          <h2 class="about-heading"
+              data-fr="Au cœur de la Grand-Place."
+              data-en="In the heart of the Grand Place.">Au cœur de la Grand-Place.</h2>
+          <p class="about-italic"
+             data-fr="Un emplacement unique pour une expérience bruxelloise inoubliable."
+             data-en="A unique location for an unforgettable Brussels experience.">Un emplacement unique pour une expérience bruxelloise inoubliable.</p>
+          <p class="about-body">
+            <span data-fr="Brussels Brasserie est situé directement sur la Grand-Place — la place classée au patrimoine mondial de l'UNESCO, considérée comme l'une des plus belles du monde. Depuis notre table, admirez les guildes dorées tout en savourant les classiques de la cuisine belge: moules-frites, carbonade, bières artisanales. Service attentionné, ambiance chaleureuse."
+                  data-en="Brussels Brasserie is located directly on the Grand Place — the UNESCO World Heritage site considered one of the world's most beautiful squares. From your table, admire the golden guild houses while savouring Belgian classics: mussels-frites, carbonade, artisan beers. Attentive service, warm atmosphere.">Brussels Brasserie est situé directement sur la Grand-Place — la place classée au patrimoine mondial de l'UNESCO, considérée comme l'une des plus belles du monde. Depuis notre table, admirez les guildes dorées tout en savourant les classiques de la cuisine belge: moules-frites, carbonade, bières artisanales. Service attentionné, ambiance chaleureuse.</span>
+          </p>
+          <div class="about-stats">
+            <div class="about-stat">
+              <div class="about-stat-value">34</div>
+              <div class="about-stat-label">Grand-Place</div>
+            </div>
+            <div class="about-stat">
+              <div class="about-stat-value"
+                   data-fr="UNESCO"
+                   data-en="UNESCO">UNESCO</div>
+              <div class="about-stat-label"
+                   data-fr="Vue"
+                   data-en="View">Vue</div>
+            </div>
+            <div class="about-stat">
+              <div class="about-stat-value"
+                   data-fr="7j/7"
+                   data-en="7/7">7j/7</div>
+              <div class="about-stat-label"
+                   data-fr="Ouvert"
+                   data-en="Open">Ouvert</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ REVIEWS -->
+  <section id="reviews">
+    <div class="container">
+      <div class="text-center fade-up" style="margin-bottom:2.5rem;">
+        <h2 class="section-title dark"
+            data-fr="Ce que disent nos clients"
+            data-en="What our clients say">Ce que disent nos clients</h2>
+      </div>
+      <div class="reviews-grid">
+
+        <div class="review-card fade-up">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Our server Jim was charming, helpful and attentive. Chicken Schnitzel and rib eye were both awesome. Great service and a clear view of Grand Place!"</p>
+          <div class="review-source">TripAdvisor</div>
+        </div>
+
+        <div class="review-card fade-up">
+          <div class="review-stars">★★★★</div>
+          <p class="review-text">"Stick with mussels and fries — you won't be disappointed. You come here for the location, and what a location it is! Beer selection is excellent."</p>
+          <div class="review-source">TripAdvisor</div>
+        </div>
+
+        <div class="review-card fade-up">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text"
+             data-fr="&quot;Vue imprenable sur la Grand-Place, service attentionné et moules délicieuses. Une adresse incontournable à Bruxelles.&quot;"
+             data-en="&quot;Breathtaking view of the Grand Place, attentive service and delicious mussels. A must-visit address in Brussels.&quot;">"Vue imprenable sur la Grand-Place, service attentionné et moules délicieuses. Une adresse incontournable à Bruxelles."</p>
+          <div class="review-source">Google</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ RÉSERVATION & CONTACT -->
+  <section id="contact">
+    <div class="container">
+
+      <div class="fade-up" style="margin-bottom:2.5rem;">
+        <h2 class="section-title red"
+            data-fr="Réservation &amp; Contact"
+            data-en="Reservation &amp; Contact">Réservation &amp; Contact</h2>
+      </div>
+
+      <div class="contact-grid">
+
+        <!-- LEFT: infos + map -->
+        <div class="fade-up">
+
+          <div class="info-row">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4cd.svg" alt="">
+            <span>Grand-Place 34, 1000 Bruxelles</span>
+          </div>
+          <div class="info-row">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4de.svg" alt="">
+            <a href="tel:+3225113303">+32 2 511 33 03</a>
+          </div>
+
+          <div class="hours-label"
+               data-fr="HORAIRES"
+               data-en="HOURS">HORAIRES</div>
+          <div class="hours-row">
+            <span class="hours-day"
+                  data-fr="Tous les jours"
+                  data-en="Every day">Tous les jours</span>
+            <span class="hours-time">11:00–23:00</span>
+          </div>
+
+          <p class="contact-note" style="margin-top:1rem;">
+            <span data-fr="Réservation recommandée · Cartes acceptées"
+                  data-en="Reservation recommended · Cards accepted">Réservation recommandée · Cartes acceptées</span>
+          </p>
+          <p class="contact-note highlight">
+            <span data-fr="Vue directe sur la Grand-Place · UNESCO"
+                  data-en="Direct view of the Grand Place · UNESCO">Vue directe sur la Grand-Place · UNESCO</span>
+          </p>
+
+          <div class="map-wrap">
+            <iframe
+              src="https://www.google.com/maps?q=Grand-Place+34,+1000+Bruxelles&output=embed"
+              width="100%" height="300"
+              style="border:0;border-radius:10px;display:block;"
+              allowfullscreen loading="lazy"
+              title="Brussels Brasserie — Grand-Place 34, Bruxelles">
+            </iframe>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: reservation form -->
+        <div class="fade-up">
+          <form class="res-form" id="resForm" onsubmit="handleSubmit(event)">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="rname"
+                       data-fr="Nom" data-en="Name">Nom</label>
+                <input class="form-input" type="text" id="rname" name="name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="remail"
+                       data-fr="Email" data-en="Email">Email</label>
+                <input class="form-input" type="email" id="remail" name="email" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="rdate"
+                       data-fr="Date" data-en="Date">Date</label>
+                <input class="form-input" type="date" id="rdate" name="date" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="rtime"
+                       data-fr="Heure" data-en="Time">Heure</label>
+                <input class="form-input" type="time" id="rtime" name="time" min="11:00" max="22:30" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="rguests"
+                     data-fr="Nombre de personnes"
+                     data-en="Guests">Nombre de personnes</label>
+              <select class="form-select" id="rguests" name="guests" required>
+                <option value="" disabled selected></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9+">9+</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="rmessage"
+                     data-fr="Message (optionnel)"
+                     data-en="Message (optional)">Message (optionnel)</label>
+              <textarea class="form-textarea" id="rmessage" name="message"></textarea>
+            </div>
+
+            <button type="submit" class="form-btn">
+              <span data-fr="Réserver →" data-en="Reserve →">Réserver →</span>
+            </button>
+
+          </form>
+          <div class="form-success" id="formSuccess">
+            <span data-fr="Merci ! Nous confirmerons votre réservation bientôt."
+                  data-en="Thank you! We'll confirm your reservation soon.">Merci ! Nous confirmerons votre réservation bientôt.</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">
+          <span class="footer-brussels">Brussels</span>
+          <span class="footer-brasserie">Brasserie</span>
+        </div>
+        <div class="footer-sub"
+             data-fr="Grand-Place 34 · 1000 Bruxelles"
+             data-en="Grand-Place 34 · 1000 Brussels">Grand-Place 34 · 1000 Bruxelles</div>
+      </div>
+      <div class="footer-copy">© 2026 · Brussels Brasserie · Grand-Place</div>
+      <div class="footer-links">
+        <a href="https://www.tripadvisor.com/Restaurant_Review-g188644-Brussels_Brasserie" target="_blank" rel="noopener">TripAdvisor</a>
+        <a href="https://www.google.com/maps/search/Grand-Place+34+Bruxelles" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ——— PROGRESS BAR ——— */
+    const bar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0%';
+    }, { passive: true });
+
+    /* ——— HAMBURGER ——— */
+    const hamburger     = document.getElementById('hamburger');
+    const navLinks      = document.getElementById('navLinks');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
+
+    hamburger.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      hamburgerIcon.className = open ? 'fas fa-xmark' : 'fas fa-bars';
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        hamburgerIcon.className = 'fas fa-bars';
+        document.body.style.overflow = '';
+      });
+    });
+
+    /* ——— LANGUAGE TOGGLE ——— */
+    let lang = 'fr';
+
+    function setLang(l) {
+      lang = l;
+      document.documentElement.lang = l;
+      document.getElementById('btnFR').classList.toggle('active', l === 'fr');
+      document.getElementById('btnEN').classList.toggle('active', l === 'en');
+
+      document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+        el.innerHTML = l === 'fr' ? el.dataset.fr : el.dataset.en;
+      });
+    }
+
+    /* ——— INTERSECTION OBSERVER ——— */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+    /* ——— RESERVATION FORM ——— */
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.getElementById('resForm').style.display = 'none';
+      const success = document.getElementById('formSuccess');
+      success.style.display = 'block';
+      const msg = success.querySelector('[data-fr]');
+      if (msg) msg.innerHTML = lang === 'fr' ? msg.dataset.fr : msg.dataset.en;
+    }
+
+    /* Min date = today */
+    const dateInput = document.getElementById('rdate');
+    if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+  </script>
+
+</body>
+</html>
